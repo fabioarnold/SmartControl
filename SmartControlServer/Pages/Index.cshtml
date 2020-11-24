@@ -1,0 +1,35 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<script>
+    function sendCommand(id, command) {
+        var request = new XMLHttpRequest();
+        request.open("POST", "api/updates");
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        var client = {
+            id: id,
+            command: command
+        };
+        request.send(JSON.stringify(client));
+    }
+</script>
+
+<div class="text-center">
+    <h1 class="display-4">Devices</h1>
+    <ul>
+        @foreach (var client in Model.Clients)
+        {
+        <li>
+            @client.Name
+            set color:
+            <button onclick="sendCommand('@client.Id', 'Red')">Red</button>
+            <button onclick="sendCommand('@client.Id', 'Green')">Green</button>
+            <button onclick="sendCommand('@client.Id', 'Blue')">Blue</button>
+        </li>
+        }
+    </ul>
+    <a href="~/downloads/SmartControl.zip">Download Client</a>
+</div>
